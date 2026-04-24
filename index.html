@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             font-family: 'Quicksand', sans-serif;
@@ -27,9 +29,41 @@
         .bg-wedding {
             background: linear-gradient(120deg, #f9c4aa, #f8e0c0);
         }
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading.active {
+            display: flex;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #e11d48;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="antialiased">
+<body>
+
+    <!-- Loading Indicator -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
 
     <!-- Navbar -->
     <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
@@ -83,31 +117,9 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Layanan Premium Kami</h2>
                 <p class="text-gray-500 mt-2">Pilih sesuai kebutuhan acara spesial Anda</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
-                    <div class="bg-rose-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
-                        <i class="fas fa-ring text-3xl text-rose-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mt-4">Undangan Pernikahan Digital</h3>
-                    <p class="text-gray-500 mt-2">Desain elegan, RSVP online, galeri foto, musik latar, dan peta lokasi.</p>
-                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 250K</p>
-                </div>
-                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
-                    <div class="bg-amber-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
-                        <i class="fas fa-birthday-cake text-3xl text-amber-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mt-4">Kartu Ucapan Ulang Tahun</h3>
-                    <p class="text-gray-500 mt-2">Animasi kustom, ucapan personal, countdown, dan hadiah digital.</p>
-                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 150K</p>
-                </div>
-                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
-                    <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
-                        <i class="fas fa-champagne-glasses text-3xl text-emerald-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mt-4">Paket Anniversary & Lainnya</h3>
-                    <p class="text-gray-500 mt-2">Ucapan wisuda, khitanan, baby shower, valentine, dll.</p>
-                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 180K</p>
-                </div>
+            <div class="grid md:grid-cols-3 gap-8" id="services-container">
+                <!-- Services will be loaded from Firebase -->
+                <div class="text-center col-span-3">Memuat layanan...</div>
             </div>
         </div>
     </section>
@@ -120,32 +132,33 @@
                 <p class="text-gray-500">Beberapa karya terbaik tim kami</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-container">
-                <!-- JS akan inject portofolio dari dataset -->
+                <!-- Portofolio akan dimuat dari Firebase -->
             </div>
         </div>
     </section>
 
-    <!-- Dataset Model Section (JSON-LD & Tampilan) -->
+    <!-- Dataset Model Section -->
     <section id="dataset" class="bg-gray-100 py-16">
         <div class="max-w-5xl mx-auto px-4">
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div class="bg-rose-700 text-white px-6 py-4">
-                    <h3 class="text-2xl font-bold"><i class="fas fa-database mr-2"></i> Dataset Model - Contoh Data Undangan & Kartu</h3>
-                    <p class="text-rose-100">Struktur data untuk sistem rekomendasi / katalog layanan</p>
+                    <h3 class="text-2xl font-bold"><i class="fas fa-database mr-2"></i> Dataset Model - Firebase Realtime</h3>
+                    <p class="text-rose-100">Data langsung dari database untuk sistem rekomendasi</p>
                 </div>
                 <div class="p-6 overflow-x-auto">
                     <pre id="dataset-json" class="text-sm bg-gray-900 text-green-300 p-4 rounded-lg overflow-auto max-h-96">
-                        <!-- JSON akan dimuat dari data.js atau inline -->
+                        Memuat dataset...
                     </pre>
                 </div>
-                <div class="px-6 pb-6">
-                    <button onclick="copyDataset()" class="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700"><i class="fas fa-copy"></i> Salin Dataset JSON</button>
+                <div class="px-6 pb-6 flex gap-3">
+                    <button onclick="refreshDataset()" class="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                    <button onclick="exportToCSV()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700"><i class="fas fa-download"></i> Export CSV</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Form Pemesanan Sederhana -->
+    <!-- Form Pemesanan -->
     <section id="order" class="py-16 bg-gradient-to-r from-rose-50 to-amber-50">
         <div class="max-w-3xl mx-auto px-4">
             <div class="bg-white rounded-2xl shadow-xl p-8">
@@ -154,27 +167,60 @@
                 <form id="orderForm" class="space-y-4">
                     <div>
                         <label class="block font-medium">Nama Lengkap</label>
-                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-rose-500">
+                        <input type="text" id="customerName" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-rose-500">
                     </div>
                     <div>
                         <label class="block font-medium">Email</label>
-                        <input type="email" required class="w-full border border-gray-300 rounded-lg p-3">
+                        <input type="email" id="customerEmail" required class="w-full border border-gray-300 rounded-lg p-3">
+                    </div>
+                    <div>
+                        <label class="block font-medium">Nomor WhatsApp</label>
+                        <input type="tel" id="customerPhone" required class="w-full border border-gray-300 rounded-lg p-3">
                     </div>
                     <div>
                         <label class="block font-medium">Jenis Layanan</label>
-                        <select class="w-full border border-gray-300 rounded-lg p-3">
-                            <option>Undangan Pernikahan Digital</option>
-                            <option>Kartu Ucapan Ulang Tahun</option>
-                            <option>Paket Anniversary & Lainnya</option>
+                        <select id="serviceType" class="w-full border border-gray-300 rounded-lg p-3">
+                            <option value="">Pilih layanan...</option>
                         </select>
                     </div>
                     <div>
+                        <label class="block font-medium">Tanggal Acara</label>
+                        <input type="date" id="eventDate" required class="w-full border border-gray-300 rounded-lg p-3">
+                    </div>
+                    <div>
                         <label class="block font-medium">Catatan Tambahan</label>
-                        <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-3" placeholder="Tema / warna / konsep ..."></textarea>
+                        <textarea id="notes" rows="3" class="w-full border border-gray-300 rounded-lg p-3" placeholder="Tema / warna / konsep ..."></textarea>
                     </div>
                     <button type="submit" class="w-full bg-rose-600 text-white font-bold py-3 rounded-xl hover:bg-rose-700 transition"><i class="fas fa-paper-plane"></i> Kirim Pesanan</button>
                 </form>
-                <p id="formMessage" class="text-center text-green-600 mt-4 hidden"></p>
+                <div id="formMessage" class="text-center mt-4 hidden"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Dashboard Sederhana -->
+    <section id="admin" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+                    <i class="fas fa-chart-line text-rose-600"></i> Dashboard Orders
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border">
+                        <thead class="bg-gray-800 text-white">
+                            <tr>
+                                <th class="py-2 px-4">Nama</th>
+                                <th class="py-2 px-4">Layanan</th>
+                                <th class="py-2 px-4">Tanggal Acara</th>
+                                <th class="py-2 px-4">Status</th>
+                                <th class="py-2 px-4">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <tr><td colspan="5" class="text-center py-4">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -182,148 +228,405 @@
     <footer class="bg-gray-900 text-white py-8 text-center">
         <p>&copy; 2025 CitraKreasi - Undangan Digital & Kartu Ucapan Berkesan</p>
         <div class="flex justify-center space-x-4 mt-2 text-rose-400">
-            <i class="fab fa-instagram text-xl"></i>
-            <i class="fab fa-whatsapp text-xl"></i>
-            <i class="fab fa-tiktok text-xl"></i>
+            <i class="fab fa-instagram text-xl cursor-pointer"></i>
+            <i class="fab fa-whatsapp text-xl cursor-pointer"></i>
+            <i class="fab fa-tiktok text-xl cursor-pointer"></i>
         </div>
     </footer>
 
-    <script>
-        // ======================= DATASET MODEL (JSON) =======================
-        const datasetModel = {
-            "service_catalog": [
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, update, remove, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        
+        // Konfigurasi Firebase Anda - GANTI dengan config dari project Firebase Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsiDxGIepD-BQPpbSt85X-gJxAvdcKpZM",
+            authDomain: "intan-mulya-eo.firebaseapp.com",
+            databaseURL: "https://intan-mulya-eo-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "intan-mulya-eo",
+            storageBucket: "intan-mulya-eo.firebasestorage.app",
+            messagingSenderId: "G-8KJYWJXY1E"
+            appId: "1:21354920451:web:ccfb385b550311e2136c36",
+        };
+        
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        // Export ke window untuk fungsi global
+        window.db = database;
+        window.dbRef = ref;
+        
+        // Dataset awal untuk diupload ke Firebase (jika kosong)
+        const initialDataset = {
+            services: [
                 {
-                    "id": 1,
-                    "category": "wedding_invitation",
-                    "name": "Undangan Pernikahan Elegan",
-                    "price_min": 250000,
-                    "price_max": 750000,
-                    "features": ["RSVP Online", "Gallery Foto", "Maps Lokasi", "Musik Latar", "Countdown", "Amplop Digital"],
-                    "tags": ["romantic", "formal", "muslim", "modern"],
-                    "popularity_score": 4.8,
-                    "sample_images": ["wedding1.jpg", "wedding2.jpg"]
+                    id: "svc_1",
+                    category: "wedding",
+                    name: "Undangan Pernikahan Digital Elegan",
+                    price_min: 250000,
+                    price_max: 750000,
+                    features: ["RSVP Online", "Gallery Foto", "Maps Lokasi", "Musik Latar", "Countdown", "Amplop Digital"],
+                    tags: ["romantic", "formal", "modern"],
+                    popularity: 4.8,
+                    icon: "fa-ring"
                 },
                 {
-                    "id": 2,
-                    "category": "birthday_card",
-                    "name": "Kartu Ucapan Ulang Tahun Anak",
-                    "price_min": 120000,
-                    "price_max": 300000,
-                    "features": ["Animasi Karakter", "Lagu Selamat Ulang Tahun", "Kue Virtual", "Kado Digital"],
-                    "tags": ["kids", "fun", "colorful", "interactive"],
-                    "popularity_score": 4.7,
-                    "sample_images": ["birthday_kids.jpg"]
+                    id: "svc_2",
+                    category: "birthday",
+                    name: "Kartu Ucapan Ulang Tahun Anak",
+                    price_min: 120000,
+                    price_max: 300000,
+                    features: ["Animasi Karakter", "Lagu Selamat Ulang Tahun", "Kue Virtual", "Kado Digital"],
+                    tags: ["kids", "fun", "colorful"],
+                    popularity: 4.7,
+                    icon: "fa-birthday-cake"
                 },
                 {
-                    "id": 3,
-                    "category": "birthday_card",
-                    "name": "Ulang Tahun Spesial (18/21/50th)",
-                    "price_min": 150000,
-                    "price_max": 400000,
-                    "features": ["Video Ucapan dari Teman", "Slideshow Kenangan", "E-Ticket Acara"],
-                    "tags": ["adult", "milestone", "elegant"],
-                    "popularity_score": 4.5
+                    id: "svc_3",
+                    category: "birthday",
+                    name: "Ulang Tahun Spesial (18/21/50th)",
+                    price_min: 150000,
+                    price_max: 400000,
+                    features: ["Video Ucapan dari Teman", "Slideshow Kenangan", "E-Ticket Acara"],
+                    tags: ["adult", "milestone", "elegant"],
+                    popularity: 4.5,
+                    icon: "fa-star"
                 },
                 {
-                    "id": 4,
-                    "category": "anniversary",
-                    "name": "Ucapan Anniversary Pernikahan",
-                    "price_min": 180000,
-                    "price_max": 350000,
-                    "features": ["Timeline Foto", "Love Letter Digital", "Spotify Playlist"],
-                    "tags": ["romantic", "anniversary", "couple"],
-                    "popularity_score": 4.9
-                },
-                {
-                    "id": 5,
-                    "category": "graduation",
-                    "name": "Kartu Kelulusan / Wisuda",
-                    "price_min": 130000,
-                    "price_max": 250000,
-                    "features": ["Foto Toga", "Quote Motivasi", "Rekaman Ucapan Dosen"],
-                    "tags": ["graduation", "formal", "inspiring"]
+                    id: "svc_4",
+                    category: "anniversary",
+                    name: "Ucapan Anniversary Pernikahan",
+                    price_min: 180000,
+                    price_max: 350000,
+                    features: ["Timeline Foto", "Love Letter Digital", "Spotify Playlist"],
+                    tags: ["romantic", "anniversary", "couple"],
+                    popularity: 4.9,
+                    icon: "fa-heart"
                 }
             ],
-            "user_preferences_model": {
-                "themes": ["minimalis", "mewah", "vintage", "modern", "tropical"],
-                "color_palettes": ["pastel", "gold & white", "terracotta", "navy & blush", "monochrome"],
-                "music_genres": ["pop", "instrumental", "jazz", "acoustic", "religious"]
-            },
-            "training_data_sample": [
-                {"user_id": "U001", "chosen_service": 1, "budget": 500000, "event_date": "2025-12-20", "rating": 5},
-                {"user_id": "U002", "chosen_service": 2, "budget": 200000, "event_date": "2025-08-15", "rating": 4},
-                {"user_id": "U003", "chosen_service": 4, "budget": 300000, "event_date": "2025-09-01", "rating": 5}
+            portofolio: [
+                { id: "port_1", name: "Wedding Adinda & Raka", category: "wedding", icon: "fa-ring", color: "rose" },
+                { id: "port_2", name: "Ultah Kayla 7th", category: "birthday", icon: "fa-birthday-cake", color: "amber" },
+                { id: "port_3", name: "Graduation FTUI", category: "graduation", icon: "fa-graduation-cap", color: "blue" },
+                { id: "port_4", name: "Anniversary 10th", category: "anniversary", icon: "fa-heart", color: "pink" }
             ],
-            "recommendation_engine": "Content-based filtering + collaborative filtering (dummy prototype)"
+            analytics: {
+                total_orders: 0,
+                total_revenue: 0,
+                popular_services: {}
+            }
         };
-
-        // Tampilkan dataset ke pre
-        document.getElementById('dataset-json').innerHTML = JSON.stringify(datasetModel, null, 2);
         
-        // Portofolio dari dataset (simulasi gambar placeholder)
-        const portofolioItems = [
-            { name: "Wedding Adinda & Raka", icon: "fa-ring", color: "rose" },
-            { name: "Ultah Kayla 7th", icon: "fa-birthday-cake", color: "amber" },
-            { name: "Graduation FTUI", icon: "fa-graduation-cap", color: "blue" },
-            { name: "Anniversary 10th", icon: "fa-heart", color: "pink" }
-        ];
-        const galleryContainer = document.getElementById('gallery-container');
-        if(galleryContainer) {
-            portofolioItems.forEach(item => {
-                let gradClass = "";
-                if(item.color === "rose") gradClass = "from-rose-400 to-rose-600";
-                else if(item.color === "amber") gradClass = "from-amber-400 to-amber-600";
-                else if(item.color === "blue") gradClass = "from-blue-400 to-blue-600";
-                else gradClass = "from-pink-400 to-pink-600";
-                const colDiv = document.createElement('div');
-                colDiv.className = "bg-white rounded-xl shadow overflow-hidden group cursor-pointer";
-                colDiv.innerHTML = `
-                    <div class="h-40 bg-gradient-to-br ${gradClass} flex items-center justify-center">
-                        <i class="fas ${item.icon} text-5xl text-white drop-shadow-lg"></i>
-                    </div>
-                    <div class="p-3 text-center font-semibold text-gray-700">${item.name}</div>
-                `;
-                galleryContainer.appendChild(colDiv);
+        // Fungsi untuk initial load data ke Firebase jika kosong
+        async function initializeFirebaseData() {
+            const dbRef = ref(database);
+            const snapshot = await get(child(dbRef, 'services'));
+            
+            if (!snapshot.exists()) {
+                console.log("Initializing Firebase with sample data...");
+                // Upload services
+                for (const service of initialDataset.services) {
+                    await set(ref(database, 'services/' + service.id), service);
+                }
+                // Upload portofolio
+                for (const port of initialDataset.portofolio) {
+                    await set(ref(database, 'portofolio/' + port.id), port);
+                }
+                // Initialize analytics
+                await set(ref(database, 'analytics'), initialDataset.analytics);
+                console.log("Firebase initialized with sample data");
+            }
+        }
+        
+        // Load services ke halaman
+        function loadServices() {
+            const servicesRef = ref(database, 'services');
+            onValue(servicesRef, (snapshot) => {
+                const services = snapshot.val();
+                const container = document.getElementById('services-container');
+                if (services) {
+                    const servicesArray = Object.values(services);
+                    container.innerHTML = servicesArray.map(service => `
+                        <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
+                            <div class="bg-rose-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
+                                <i class="fas ${service.icon || 'fa-gift'} text-3xl text-rose-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mt-4">${service.name}</h3>
+                            <p class="text-gray-500 mt-2 text-sm">${service.features.slice(0,3).join(' • ')}</p>
+                            <p class="text-rose-600 font-bold mt-3">Rp ${service.price_min.toLocaleString()} - ${service.price_max.toLocaleString()}</p>
+                            <div class="mt-2 flex justify-center gap-1 text-yellow-500">
+                                ${Array(Math.floor(service.popularity)).fill('<i class="fas fa-star"></i>').join('')}
+                                ${service.popularity % 1 >= 0.5 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<div class="text-center col-span-3">Belum ada layanan, silakan tambahkan via Firebase Console</div>';
+                }
             });
         }
-
-        // Fungsi copy dataset
-        window.copyDataset = function() {
-            const jsonStr = JSON.stringify(datasetModel, null, 2);
-            navigator.clipboard.writeText(jsonStr);
-            alert("Dataset model berhasil disalin ke clipboard!");
-        };
-
-        // Form submit handler
-        const form = document.getElementById('orderForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const msgDiv = document.getElementById('formMessage');
-            msgDiv.classList.remove('hidden');
-            msgDiv.innerText = "✅ Terima kasih! Pesanan Anda akan segera kami proses.";
-            form.reset();
-            setTimeout(() => msgDiv.classList.add('hidden'), 4000);
-        });
-
-        // Tambahan: Log dataset ke console => siap untuk machine learning model
-        console.log("Dataset Model Siap:", datasetModel);
-    </script>
-
-    <!-- Structured Data (Schema.org) untuk SEO dan model data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "CitraKreasi Digital Invitation",
-        "description": "Penyedia jasa undangan pernikahan digital dan kartu ucapan ulang tahun interaktif",
-        "serviceType": ["Wedding Invitation", "Birthday Card", "Anniversary Card"],
-        "priceRange": "Rp150.000 - Rp750.000",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Jakarta",
-            "addressCountry": "ID"
+        
+        // Load portofolio
+        function loadPortofolio() {
+            const portofolioRef = ref(database, 'portofolio');
+            onValue(portofolioRef, (snapshot) => {
+                const portofolio = snapshot.val();
+                const container = document.getElementById('gallery-container');
+                if (portofolio) {
+                    const portArray = Object.values(portofolio);
+                    container.innerHTML = portArray.map(port => {
+                        let gradClass = "";
+                        if(port.color === "rose") gradClass = "from-rose-400 to-rose-600";
+                        else if(port.color === "amber") gradClass = "from-amber-400 to-amber-600";
+                        else if(port.color === "blue") gradClass = "from-blue-400 to-blue-600";
+                        else gradClass = "from-pink-400 to-pink-600";
+                        return `
+                            <div class="bg-white rounded-xl shadow overflow-hidden group cursor-pointer">
+                                <div class="h-40 bg-gradient-to-br ${gradClass} flex items-center justify-center">
+                                    <i class="fas ${port.icon} text-5xl text-white drop-shadow-lg"></i>
+                                </div>
+                                <div class="p-3 text-center font-semibold text-gray-700">${port.name}</div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<div class="col-span-4 text-center">Belum ada portofolio</div>';
+                }
+            });
         }
-    }
+        
+        // Load dataset untuk ditampilkan
+        function loadDataset() {
+            const dbRef = ref(database);
+            get(child(dbRef, '/')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('dataset-json').innerHTML = JSON.stringify(data, null, 2);
+                } else {
+                    document.getElementById('dataset-json').innerHTML = 'No data available in Firebase';
+                }
+            }).catch((error) => {
+                console.error(error);
+                document.getElementById('dataset-json').innerHTML = 'Error loading data: ' + error.message;
+            });
+        }
+        
+        // Load orders untuk admin dashboard
+        function loadOrders() {
+            const ordersRef = ref(database, 'orders');
+            onValue(ordersRef, (snapshot) => {
+                const orders = snapshot.val();
+                const tbody = document.getElementById('orders-table-body');
+                if (orders) {
+                    const ordersArray = Object.entries(orders).map(([id, order]) => ({ id, ...order }));
+                    tbody.innerHTML = ordersArray.map(order => `
+                        <tr class="border-b">
+                            <td class="py-2 px-4">${order.customerName}</td>
+                            <td class="py-2 px-4">${order.serviceName || order.serviceType}</td>
+                            <td class="py-2 px-4">${order.eventDate || '-'}</td>
+                            <td class="py-2 px-4">
+                                <select onchange="updateOrderStatus('${order.id}', this.value)" class="px-2 py-1 rounded ${getStatusColor(order.status)}">
+                                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="processed" ${order.status === 'processed' ? 'selected' : ''}>Diproses</option>
+                                    <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Selesai</option>
+                                    <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Batal</option>
+                                </select>
+                            </td>
+                            <td class="py-2 px-4">
+                                <button onclick="deleteOrder('${order.id}')" class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Belum ada pesanan</td></tr>';
+                }
+            });
+        }
+        
+        function getStatusColor(status) {
+            switch(status) {
+                case 'pending': return 'bg-yellow-200 text-yellow-800';
+                case 'processed': return 'bg-blue-200 text-blue-800';
+                case 'completed': return 'bg-green-200 text-green-800';
+                case 'cancelled': return 'bg-red-200 text-red-800';
+                default: return 'bg-gray-200';
+            }
+        }
+        
+        // Load service options ke dropdown form
+        function loadServiceOptions() {
+            const servicesRef = ref(database, 'services');
+            onValue(servicesRef, (snapshot) => {
+                const services = snapshot.val();
+                const select = document.getElementById('serviceType');
+                if (services) {
+                    const servicesArray = Object.entries(services);
+                    select.innerHTML = '<option value="">Pilih layanan...</option>' + 
+                        servicesArray.map(([id, service]) => `<option value="${id}">${service.name} (Rp ${service.price_min.toLocaleString()} - ${service.price_max.toLocaleString()})</option>`).join('');
+                }
+            });
+        }
+        
+        // Submit order ke Firebase
+        window.submitOrder = async function(orderData) {
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.classList.add('active');
+            
+            try {
+                const ordersRef = ref(database, 'orders');
+                const newOrderRef = push(ordersRef);
+                
+                const order = {
+                    ...orderData,
+                    status: 'pending',
+                    createdAt: new Date().toISOString(),
+                    orderId: newOrderRef.key
+                };
+                
+                await set(newOrderRef, order);
+                
+                // Update analytics
+                const analyticsRef = ref(database, 'analytics');
+                const snapshot = await get(analyticsRef);
+                if (snapshot.exists()) {
+                    const analytics = snapshot.val();
+                    await update(analyticsRef, {
+                        total_orders: (analytics.total_orders || 0) + 1
+                    });
+                }
+                
+                loadingDiv.classList.remove('active');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Pesanan Anda telah dikirim. Tim kami akan menghubungi Anda segera.',
+                    confirmButtonColor: '#e11d48'
+                });
+                
+                document.getElementById('orderForm').reset();
+                return true;
+            } catch (error) {
+                loadingDiv.classList.remove('active');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: error.message,
+                    confirmButtonColor: '#e11d48'
+                });
+                return false;
+            }
+        };
+        
+        // Global functions
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            const orderRef = ref(database, `orders/${orderId}`);
+            await update(orderRef, { status: newStatus });
+            Swal.fire('Updated', `Status pesanan diubah menjadi ${newStatus}`, 'success');
+        };
+        
+        window.deleteOrder = async function(orderId) {
+            const result = await Swal.fire({
+                title: 'Yakin hapus?',
+                text: "Data pesanan akan dihapus permanen",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!'
+            });
+            
+            if (result.isConfirmed) {
+                const orderRef = ref(database, `orders/${orderId}`);
+                await remove(orderRef);
+                Swal.fire('Terhapus!', 'Pesanan telah dihapus.', 'success');
+            }
+        };
+        
+        window.refreshDataset = function() {
+            loadDataset();
+            Swal.fire('Refresh', 'Dataset berhasil dimuat ulang dari Firebase', 'info');
+        };
+        
+        window.exportToCSV = function() {
+            const ordersRef = ref(database, 'orders');
+            get(ordersRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const orders = snapshot.val();
+                    const ordersArray = Object.values(orders);
+                    
+                    // Konversi ke CSV
+                    const headers = ['Nama', 'Email', 'Phone', 'Layanan', 'Tanggal Acara', 'Status', 'Created At'];
+                    const csvRows = [headers];
+                    
+                    for (const order of ordersArray) {
+                        csvRows.push([
+                            order.customerName,
+                            order.customerEmail,
+                            order.customerPhone,
+                            order.serviceName || order.serviceType,
+                            order.eventDate,
+                            order.status,
+                            order.createdAt
+                        ]);
+                    }
+                    
+                    const csvContent = csvRows.map(row => row.join(',')).join('\n');
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `orders_${new Date().toISOString()}.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    Swal.fire('Export Berhasil', 'File CSV telah diunduh', 'success');
+                }
+            });
+        };
+        
+        // Initialize all
+        initializeFirebaseData().then(() => {
+            loadServices();
+            loadPortofolio();
+            loadDataset();
+            loadOrders();
+            loadServiceOptions();
+        });
+        
+        // Form submit handler
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const serviceSelect = document.getElementById('serviceType');
+            const selectedServiceId = serviceSelect.value;
+            
+            if (!selectedServiceId) {
+                Swal.fire('Error', 'Silakan pilih jenis layanan', 'warning');
+                return;
+            }
+            
+            // Get service name
+            const servicesRef = ref(database, `services/${selectedServiceId}`);
+            const serviceSnapshot = await get(servicesRef);
+            const serviceName = serviceSnapshot.exists() ? serviceSnapshot.val().name : selectedServiceId;
+            
+            const orderData = {
+                customerName: document.getElementById('customerName').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                serviceType: selectedServiceId,
+                serviceName: serviceName,
+                eventDate: document.getElementById('eventDate').value,
+                notes: document.getElementById('notes').value
+            };
+            
+            await window.submitOrder(orderData);
+        });
     </script>
 </body>
 </html>
