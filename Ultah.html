@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Nella Elfira · 27: A Glow of Grace & Greatness</title>
+  <title>🎁 Nella Elfira · 27 · Buka Kado Spesial</title>
   <!-- Google Fonts: Elegant Serif + Modern Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      user-select: none; /* lebih elegan untuk kartu, tetap bisa teks dipilih jika perlu */
     }
 
     body {
@@ -23,12 +22,13 @@
       align-items: center;
       justify-content: center;
       font-family: 'Inter', sans-serif;
-      padding: 1.8rem;
+      padding: 1.5rem;
       position: relative;
       overflow-x: hidden;
+      cursor: pointer;
     }
 
-    /* background soft glowing stars & floating orbs */
+    /* ambient glowing orbs */
     .glow-orb {
       position: fixed;
       border-radius: 50%;
@@ -43,7 +43,6 @@
       100% { transform: translate(40px, -30px) scale(1.2); opacity: 0.6; }
     }
 
-    /* bintang kecil berkedip */
     .star-dust {
       position: fixed;
       background-color: #fff3cf;
@@ -59,24 +58,105 @@
       100% { opacity: 0.9; transform: scale(1.2);}
     }
 
-    /* --- MAIN CARD (elegant, glassmorphism lembut) --- */
+    /* overlay pembuka (kado) */
+    .gift-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      opacity: 1;
+      visibility: visible;
+      cursor: pointer;
+    }
+
+    .gift-box {
+      text-align: center;
+      animation: bounceSoft 1.2s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @keyframes bounceSoft {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-18px) scale(1.03); }
+    }
+
+    .gift-icon {
+      font-size: 8rem;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+      transition: transform 0.2s;
+      color: #f3c26b;
+    }
+
+    .gift-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: #ffefcf;
+      margin-top: 1rem;
+      letter-spacing: 2px;
+      background: rgba(0,0,0,0.5);
+      padding: 0.5rem 1.8rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+    }
+
+    .gift-sub {
+      color: #f7d48b;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    /* efek sentuhan klik (ripple) */
+    .click-ripple {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,120,0.7) 0%, rgba(255,180,70,0) 80%);
+      transform: scale(0);
+      pointer-events: none;
+      z-index: 999;
+      animation: rippleAnim 0.6s ease-out forwards;
+    }
+
+    @keyframes rippleAnim {
+      0% { transform: scale(0); opacity: 0.8; }
+      100% { transform: scale(12); opacity: 0; }
+    }
+
+    /* main card (awal tersembunyi, muncul setelah buka kado) */
     .birthday-card {
       position: relative;
       z-index: 20;
       max-width: 820px;
       width: 100%;
-      background: rgba(255, 250, 240, 0.94);
+      background: rgba(255, 250, 240, 0.96);
       backdrop-filter: blur(2px);
       border-radius: 68px;
       box-shadow: 0 40px 70px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(212, 175, 55, 0.25);
       overflow: hidden;
-      transition: transform 0.4s ease;
-      animation: cardAppear 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transition: transform 0.4s ease, opacity 0.5s ease;
+      opacity: 0;
+      transform: scale(0.96);
+      pointer-events: none;
     }
 
-    @keyframes cardAppear {
-      0% { opacity: 0; transform: scale(0.96) translateY(25px);}
-      100% { opacity: 1; transform: scale(1) translateY(0);}
+    .birthday-card.show-card {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      animation: cardFloat 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    @keyframes cardFloat {
+      0% { opacity: 0; transform: translateY(30px) scale(0.96);}
+      100% { opacity: 1; transform: translateY(0) scale(1);}
     }
 
     /* header emas */
@@ -104,14 +184,12 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      font-family: monospace;
     }
 
     .name-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 3.2rem;
       font-weight: 600;
-      letter-spacing: 1px;
       color: #2e241f;
       text-shadow: 2px 2px 0 rgba(255,245,200,0.7);
     }
@@ -131,12 +209,6 @@
       border: 1px solid rgba(255,215,0,0.5);
     }
 
-    .age-glow i {
-      font-size: 1.3rem;
-      color: #ffdd99;
-    }
-
-    /* konten utama */
     .card-content {
       padding: 2.2rem 2rem 1.8rem;
     }
@@ -150,12 +222,6 @@
       font-size: 1.5rem;
       font-weight: 500;
       color: #6b4c3b;
-      letter-spacing: -0.2px;
-    }
-
-    .greeting-line i {
-      color: #e4ae58;
-      margin: 0 8px;
     }
 
     .reflection-message {
@@ -175,12 +241,6 @@
       font-style: italic;
     }
 
-    .poem-text strong {
-      font-weight: 700;
-      color: #b67332;
-      font-style: normal;
-    }
-
     .quote-gold {
       border-left: 3px solid #e7bc7e;
       background: #fff3e2;
@@ -198,7 +258,6 @@
       border-radius: 56px;
       padding: 1.4rem;
       margin: 1.6rem 0 0.8rem;
-      transition: all 0.2s;
       border: 1px solid #ffe0b5;
     }
 
@@ -231,11 +290,6 @@
       transition: 0.2s;
     }
 
-    .wish-input-area input:focus {
-      border-color: #dba550;
-      box-shadow: 0 0 0 3px rgba(219,165,80,0.2);
-    }
-
     .wish-input-area button {
       background: #dba550;
       border: none;
@@ -248,7 +302,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.9rem;
     }
 
     .wish-input-area button:hover {
@@ -274,21 +327,8 @@
       gap: 10px;
       font-size: 0.85rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-      word-break: break-word;
     }
 
-    .wish-item i {
-      color: #e4ae58;
-    }
-
-    .empty-note {
-      text-align: center;
-      color: #b87e4b;
-      font-size: 0.85rem;
-      padding: 12px;
-    }
-
-    /* music & footer */
     .music-section {
       display: flex;
       justify-content: center;
@@ -301,7 +341,6 @@
       padding: 10px 24px;
       border-radius: 60px;
       font-weight: 500;
-      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s;
       color: #8b5a2e;
@@ -313,7 +352,6 @@
     .music-btn:hover {
       background: #dcae6e;
       color: white;
-      border-color: #b37b2e;
     }
 
     .footer-note {
@@ -325,7 +363,6 @@
       margin-top: 1rem;
     }
 
-    /* animasi confetti canvas */
     .confetti-canvas {
       position: fixed;
       top: 0;
@@ -340,8 +377,8 @@
       .name-title { font-size: 2.4rem; }
       .greeting-line { font-size: 1.2rem; }
       .poem-text { font-size: 1rem; }
-      .card-content { padding: 1.5rem; }
-      .wish-input-area button { padding: 0 1.2rem; }
+      .gift-icon { font-size: 5rem; }
+      .gift-text { font-size: 1.4rem; }
     }
   </style>
 </head>
@@ -351,13 +388,25 @@
 <div id="starContainer"></div>
 <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
 
-<div class="birthday-card">
+<!-- GIFT OVERLAY: Animasi buka kado -->
+<div id="giftOverlay" class="gift-overlay">
+  <div class="gift-box">
+    <div class="gift-icon">
+      🎁
+    </div>
+    <div class="gift-text">Klik untuk membuka kado</div>
+    <div class="gift-sub">✨ surprise spesial untuk Nella ✨</div>
+  </div>
+</div>
+
+<!-- KARTU UTAMA -->
+<div id="birthdayCard" class="birthday-card">
   <div class="card-header">
     <div class="name-title">Nella Elfira</div>
     <div class="age-glow">
       <i class="fas fa-star-of-life"></i>  27  <i class="fas fa-crown"></i>
     </div>
-    <div style="font-size: 0.85rem; margin-top: 12px; font-weight: 400; letter-spacing: 0.5px; color:#302013;">
+    <div style="font-size: 0.85rem; margin-top: 12px; color:#302013;">
       <i class="fas fa-feather-alt"></i> A Glow of Grace & Greatness
     </div>
   </div>
@@ -375,8 +424,7 @@
         bukan sekadar angka yang bersemi, <br>
         tapi <strong>cahaya baru</strong>, <strong>kebijaksanaan</strong> yang sejati. <br>
         Setiap langkahmu bagaikan tarian bintang, <br>
-        lembut namun tak tergoyahkan. <br>
-        <i class="fas fa-feather" style="color:#c99342;"></i>
+        lembut namun tak tergoyahkan.
       </div>
       <div class="quote-gold">
         <i class="fas fa-quote-left"></i>  27 adalah pintu menuju versi terbaik dari dirimu — 
@@ -384,7 +432,6 @@
       </div>
     </div>
 
-    <!-- form ucapan -->
     <div class="wish-container">
       <h3><i class="fas fa-pen-fancy"></i> Kirim Harapan Manis untuk Nella</h3>
       <div class="wish-input-area">
@@ -399,7 +446,7 @@
 
     <div class="music-section">
       <div id="musicToggle" class="music-btn">
-        <i class="fas fa-play"></i> <span id="musicText">🎵 Lagu spesial</span>
+        <i class="fas fa-play"></i> <span id="musicText">🎵 Musik spesial</span>
       </div>
     </div>
     <div class="footer-note">
@@ -410,13 +457,13 @@
 </div>
 
 <audio id="bgMusic" loop preload="auto">
-  <!-- instrumental Musik yang ethereal & anggun (royalty-free demo) -->
+  <!-- Gunakan file audio alternatif (royalty free) tetap stabil, user bisa ganti link 
+       namun untuk pengalaman, lagu tetap bisa diputar manual -->
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-  <!-- jika gagal, tetap ada fallback interaksi -->
 </audio>
 
 <script>
-  // ---------- EFFECTS GLOW + BINTANG DINAMIS ----------
+  // ---------- AMBIENT EFFECTS ----------
   function createAmbientGlow() {
     const container = document.getElementById('glowOrbsContainer');
     for(let i=0;i<8;i++) {
@@ -451,7 +498,7 @@
   createAmbientGlow();
   generateStars();
 
-  // ----- CONFETTI EFFECT (elegant shimmer)
+  // ---------- CONFETTI (lebih meriah) ----------
   const canvas = document.getElementById('confettiCanvas');
   let ctx = canvas.getContext('2d');
   let width = window.innerWidth, height = window.innerHeight;
@@ -473,7 +520,7 @@
       this.size = Math.random() * 7 + 3;
       this.speedY = Math.random() * 4 + 2.5;
       this.speedX = (Math.random() - 0.5) * 1.8;
-      this.color = `hsl(${35 + Math.random() * 30}, 75%, 62%)`; // emas, kuning, soft peach
+      this.color = `hsl(${35 + Math.random() * 30}, 75%, 62%)`;
       this.rotation = Math.random() * 360;
       this.rotSpeed = (Math.random() - 0.5) * 6;
     }
@@ -501,7 +548,7 @@
     }
     animationActive = true;
     particles = [];
-    for(let i=0;i<160;i++) particles.push(new ConfettiParticle());
+    for(let i=0;i<180;i++) particles.push(new ConfettiParticle());
     function drawLoop() {
       if(!animationActive) return;
       if(!ctx) return;
@@ -521,7 +568,58 @@
     }, durationSec * 1000);
   }
 
-  // ----- WISHLIST (localStorage dengan nama personalisasi Nella)
+  // ---------- RIPPLE EFEK KLIK DI MANA SAJA ----------
+  function createRipple(e) {
+    const rippleDiv = document.createElement('div');
+    rippleDiv.classList.add('click-ripple');
+    const x = e.clientX;
+    const y = e.clientY;
+    rippleDiv.style.left = (x - 20) + 'px';
+    rippleDiv.style.top = (y - 20) + 'px';
+    rippleDiv.style.width = '40px';
+    rippleDiv.style.height = '40px';
+    document.body.appendChild(rippleDiv);
+    setTimeout(() => rippleDiv.remove(), 650);
+  }
+
+  document.body.addEventListener('click', (e) => {
+    if(e.target.closest('.gift-overlay')) return;
+    if(e.target.closest('.music-btn') || e.target.closest('#sendWishBtn')) return;
+    createRipple(e);
+    startConfetti(0.9);
+  });
+
+  // ---------- BUKA KADO (INTERAKSI UTAMA) ----------
+  const giftOverlay = document.getElementById('giftOverlay');
+  const birthdayCard = document.getElementById('birthdayCard');
+
+  function openGift() {
+    if(!giftOverlay || !birthdayCard) return;
+    // Animasi menghilangkan overlay
+    giftOverlay.style.opacity = '0';
+    giftOverlay.style.visibility = 'hidden';
+    // Tampilkan kartu dengan animasi
+    birthdayCard.classList.add('show-card');
+    // Ledakan konfeti meriah
+    startConfetti(3.5);
+    setTimeout(() => {
+      startConfetti(2.2);
+    }, 800);
+    // Hapus overlay setelah transisi
+    setTimeout(() => {
+      if(giftOverlay && giftOverlay.parentNode) giftOverlay.style.display = 'none';
+    }, 800);
+    // Efek suara imajiner tidak perlu, cukup visual
+  }
+
+  if(giftOverlay) {
+    giftOverlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openGift();
+    });
+  }
+
+  // ---------- WISHLIST (localStorage) ----------
   let wishData = [];
 
   function loadWishes() {
@@ -542,11 +640,21 @@
     localStorage.setItem('nella_27_wishes', JSON.stringify(wishData));
   }
 
+  function escapeHtml(str) {
+    if(!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if(m === '&') return '&amp;';
+      if(m === '<') return '&lt;';
+      if(m === '>') return '&gt;';
+      return m;
+    });
+  }
+
   function renderWishes() {
     const container = document.getElementById('wishesList');
     if(!container) return;
     if(wishData.length === 0) {
-      container.innerHTML = '<div class="empty-note">💌 Belum ada harapan. Tulislah doa untuk Nella ✨</div>';
+      container.innerHTML = '<div class="empty-note" style="text-align:center;">💌 Belum ada harapan. Tulislah doa untuk Nella ✨</div>';
       return;
     }
     let html = '';
@@ -564,16 +672,6 @@
     container.innerHTML = html;
   }
 
-  function escapeHtml(str) {
-    if(!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if(m === '&') return '&amp;';
-      if(m === '<') return '&lt;';
-      if(m === '>') return '&gt;';
-      return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) { return c; });
-  }
-
   function addWish(name, text) {
     if(!text || text.trim() === '') {
       alert('✨ Tuliskan ucapan manismu untuk Nella terlebih dahulu ✨');
@@ -583,27 +681,25 @@
     wishData.push({ name: finalName.slice(0,32), text: text.slice(0,130) });
     saveWishes();
     renderWishes();
-    startConfetti(2.5);
+    startConfetti(2.2);
     return true;
   }
 
-  // event listener untuk wish
   const sendBtn = document.getElementById('sendWishBtn');
   const wishNameInput = document.getElementById('wishName');
   const wishTextInput = document.getElementById('wishText');
   if(sendBtn) {
-    sendBtn.addEventListener('click', () => {
+    sendBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const nameVal = wishNameInput ? wishNameInput.value : '';
       const textVal = wishTextInput ? wishTextInput.value : '';
       if(addWish(nameVal, textVal)) {
         if(wishTextInput) wishTextInput.value = '';
-        // jika ingin menyapa
-        startConfetti(1.8);
       }
     });
   }
 
-  // ---------- MUSIK dengan gestur pengguna ----------
+  // ---------- MUSIK ----------
   const audio = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicToggle');
   const musicSpan = document.getElementById('musicText');
@@ -613,8 +709,8 @@
     if(!audio) return;
     if(isMusicPlaying) {
       audio.pause();
-      musicSpan.innerText = '🎵 Lagu spesial';
-      musicBtn.innerHTML = '<i class="fas fa-play"></i> <span id="musicText">🎵 Lagu spesial</span>';
+      musicSpan.innerText = '🎵 Musik spesial';
+      musicBtn.innerHTML = '<i class="fas fa-play"></i> <span id="musicText">🎵 Musik spesial</span>';
       isMusicPlaying = false;
     } else {
       const playPromise = audio.play();
@@ -623,52 +719,23 @@
           musicSpan.innerText = '🎶 Sedang mengalun...';
           musicBtn.innerHTML = '<i class="fas fa-pause"></i> <span id="musicText">🎶 Sedang mengalun...</span>';
           isMusicPlaying = true;
-        }).catch(err => {
-          console.log("autoplay restriction, click to play");
-          alert("Klik tombol musik lagi untuk memutar, karena browser membatasi autoplay. 🎧");
-          isMusicPlaying = false;
-          musicSpan.innerText = '🎵 Lagu spesial';
-          musicBtn.innerHTML = '<i class="fas fa-play"></i> <span id="musicText">🎵 Lagu spesial</span>';
+        }).catch(() => {
+          alert("Klik tombol musik lagi untuk memutar karena browser membatasi autoplay.");
         });
       }
     }
   }
+  if(musicBtn) musicBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMusic(); });
 
-  if(musicBtn) {
-    musicBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleMusic();
-    });
-  }
-
-  // konfeti pembuka saat halaman dimuat (selamat datang)
+  // Inisialisasi setelah load
   window.addEventListener('load', () => {
     resizeCanvas();
-    startConfetti(2.8);
-    // Setelah load, ada sapaan balon tidak terlalu ramai
-    setTimeout(() => {
-      startConfetti(1.8);
-    }, 1200);
+    loadWishes();
+    // Buat efek kedip pada gift overlay
   });
 
-  // efek interaksi klik pada kartu juga memercikkan konfetti kecil
-  const cardElement = document.querySelector('.birthday-card');
-  if(cardElement) {
-    cardElement.addEventListener('click', (e) => {
-      if(e.target.closest('.music-btn') || e.target.closest('#sendWishBtn')) return;
-      startConfetti(1.2);
-    });
-  }
-
-  loadWishes();
-
-  // tambahan floating particle token
-  setInterval(() => {
-    if(!animationActive) {
-      // every 12 seconds maybe sprinkle small confetti
-      if(Math.random() > 0.6) startConfetti(1);
-    }
-  }, 9000);
+  // Agar wishlist ikut responsive ketika kartu muncul
+  // Tidak perlu load ulang
 </script>
 </body>
 </html>
