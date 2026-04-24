@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Undangan Digital & Kartu Ucapan - Citra Kreasi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #fef9e6 0%, #fff4e0 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.2);
+        }
+        .bg-wedding {
+            background: linear-gradient(120deg, #f9c4aa, #f8e0c0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-envelope-open-text text-3xl text-rose-500"></i>
+                    <span class="font-bold text-2xl text-rose-700">Citra<span class="text-amber-600">Kreasi</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#home" class="hover:text-rose-600 transition">Beranda</a>
+                    <a href="#services" class="hover:text-rose-600 transition">Layanan</a>
+                    <a href="#portofolio" class="hover:text-rose-600 transition">Portofolio</a>
+                    <a href="#dataset" class="hover:text-rose-600 transition">Model Dataset</a>
+                    <a href="#order" class="bg-rose-600 text-white px-4 py-2 rounded-full hover:bg-rose-700 transition">Pesan Sekarang</a>
+                </div>
+                <div class="md:hidden">
+                    <i class="fas fa-bars text-2xl text-rose-600"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="max-w-7xl mx-auto px-4 py-12 md:py-20">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+            <div class="flex-1 text-center md:text-left">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                    <span class="text-rose-600">Undangan Digital</span><br>
+                    & <span class="text-amber-600">Kartu Ucapan</span> Spesial
+                </h1>
+                <p class="text-gray-600 text-lg mt-4 max-w-lg mx-auto md:mx-0">Buat momen tak terlupakan dengan desain eksklusif. Undangan pernikahan digital, kartu ulang tahun, dan berbagai ucapan lainnya dengan sentuhan personal.</p>
+                <div class="mt-6 flex gap-4 justify-center md:justify-start">
+                    <a href="#order" class="bg-rose-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-rose-700 transition"><i class="fas fa-calendar-alt mr-2"></i>Buat Undangan</a>
+                    <a href="#services" class="border border-rose-600 text-rose-600 px-6 py-3 rounded-full hover:bg-rose-50 transition"><i class="fas fa-gift mr-2"></i>Lihat Layanan</a>
+                </div>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <div class="relative w-72 h-72 bg-wedding rounded-full flex items-center justify-center shadow-2xl">
+                    <i class="fas fa-heart text-7xl text-rose-700"></i>
+                    <i class="fas fa-birthday-cake text-6xl text-amber-600 absolute bottom-5 right-5"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="services" class="bg-white/50 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Layanan Premium Kami</h2>
+                <p class="text-gray-500 mt-2">Pilih sesuai kebutuhan acara spesial Anda</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
+                    <div class="bg-rose-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-ring text-3xl text-rose-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Undangan Pernikahan Digital</h3>
+                    <p class="text-gray-500 mt-2">Desain elegan, RSVP online, galeri foto, musik latar, dan peta lokasi.</p>
+                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 250K</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
+                    <div class="bg-amber-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-birthday-cake text-3xl text-amber-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Kartu Ucapan Ulang Tahun</h3>
+                    <p class="text-gray-500 mt-2">Animasi kustom, ucapan personal, countdown, dan hadiah digital.</p>
+                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 150K</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-md card-hover p-6 text-center">
+                    <div class="bg-emerald-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-champagne-glasses text-3xl text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Paket Anniversary & Lainnya</h3>
+                    <p class="text-gray-500 mt-2">Ucapan wisuda, khitanan, baby shower, valentine, dll.</p>
+                    <p class="text-rose-600 font-bold mt-3">Mulai Rp 180K</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portofolio Gallery -->
+    <section id="portofolio" class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Inspirasi Desain</h2>
+                <p class="text-gray-500">Beberapa karya terbaik tim kami</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-container">
+                <!-- JS akan inject portofolio dari dataset -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Dataset Model Section (JSON-LD & Tampilan) -->
+    <section id="dataset" class="bg-gray-100 py-16">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-rose-700 text-white px-6 py-4">
+                    <h3 class="text-2xl font-bold"><i class="fas fa-database mr-2"></i> Dataset Model - Contoh Data Undangan & Kartu</h3>
+                    <p class="text-rose-100">Struktur data untuk sistem rekomendasi / katalog layanan</p>
+                </div>
+                <div class="p-6 overflow-x-auto">
+                    <pre id="dataset-json" class="text-sm bg-gray-900 text-green-300 p-4 rounded-lg overflow-auto max-h-96">
+                        <!-- JSON akan dimuat dari data.js atau inline -->
+                    </pre>
+                </div>
+                <div class="px-6 pb-6">
+                    <button onclick="copyDataset()" class="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700"><i class="fas fa-copy"></i> Salin Dataset JSON</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Pemesanan Sederhana -->
+    <section id="order" class="py-16 bg-gradient-to-r from-rose-50 to-amber-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Pesan Layanan Sekarang</h2>
+                <p class="text-center text-gray-500 mb-6">Tim kami akan menghubungi dalam 1x24 jam</p>
+                <form id="orderForm" class="space-y-4">
+                    <div>
+                        <label class="block font-medium">Nama Lengkap</label>
+                        <input type="text" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-rose-500">
+                    </div>
+                    <div>
+                        <label class="block font-medium">Email</label>
+                        <input type="email" required class="w-full border border-gray-300 rounded-lg p-3">
+                    </div>
+                    <div>
+                        <label class="block font-medium">Jenis Layanan</label>
+                        <select class="w-full border border-gray-300 rounded-lg p-3">
+                            <option>Undangan Pernikahan Digital</option>
+                            <option>Kartu Ucapan Ulang Tahun</option>
+                            <option>Paket Anniversary & Lainnya</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-medium">Catatan Tambahan</label>
+                        <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-3" placeholder="Tema / warna / konsep ..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-rose-600 text-white font-bold py-3 rounded-xl hover:bg-rose-700 transition"><i class="fas fa-paper-plane"></i> Kirim Pesanan</button>
+                </form>
+                <p id="formMessage" class="text-center text-green-600 mt-4 hidden"></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 text-center">
+        <p>&copy; 2025 CitraKreasi - Undangan Digital & Kartu Ucapan Berkesan</p>
+        <div class="flex justify-center space-x-4 mt-2 text-rose-400">
+            <i class="fab fa-instagram text-xl"></i>
+            <i class="fab fa-whatsapp text-xl"></i>
+            <i class="fab fa-tiktok text-xl"></i>
+        </div>
+    </footer>
+
+    <script>
+        // ======================= DATASET MODEL (JSON) =======================
+        const datasetModel = {
+            "service_catalog": [
+                {
+                    "id": 1,
+                    "category": "wedding_invitation",
+                    "name": "Undangan Pernikahan Elegan",
+                    "price_min": 250000,
+                    "price_max": 750000,
+                    "features": ["RSVP Online", "Gallery Foto", "Maps Lokasi", "Musik Latar", "Countdown", "Amplop Digital"],
+                    "tags": ["romantic", "formal", "muslim", "modern"],
+                    "popularity_score": 4.8,
+                    "sample_images": ["wedding1.jpg", "wedding2.jpg"]
+                },
+                {
+                    "id": 2,
+                    "category": "birthday_card",
+                    "name": "Kartu Ucapan Ulang Tahun Anak",
+                    "price_min": 120000,
+                    "price_max": 300000,
+                    "features": ["Animasi Karakter", "Lagu Selamat Ulang Tahun", "Kue Virtual", "Kado Digital"],
+                    "tags": ["kids", "fun", "colorful", "interactive"],
+                    "popularity_score": 4.7,
+                    "sample_images": ["birthday_kids.jpg"]
+                },
+                {
+                    "id": 3,
+                    "category": "birthday_card",
+                    "name": "Ulang Tahun Spesial (18/21/50th)",
+                    "price_min": 150000,
+                    "price_max": 400000,
+                    "features": ["Video Ucapan dari Teman", "Slideshow Kenangan", "E-Ticket Acara"],
+                    "tags": ["adult", "milestone", "elegant"],
+                    "popularity_score": 4.5
+                },
+                {
+                    "id": 4,
+                    "category": "anniversary",
+                    "name": "Ucapan Anniversary Pernikahan",
+                    "price_min": 180000,
+                    "price_max": 350000,
+                    "features": ["Timeline Foto", "Love Letter Digital", "Spotify Playlist"],
+                    "tags": ["romantic", "anniversary", "couple"],
+                    "popularity_score": 4.9
+                },
+                {
+                    "id": 5,
+                    "category": "graduation",
+                    "name": "Kartu Kelulusan / Wisuda",
+                    "price_min": 130000,
+                    "price_max": 250000,
+                    "features": ["Foto Toga", "Quote Motivasi", "Rekaman Ucapan Dosen"],
+                    "tags": ["graduation", "formal", "inspiring"]
+                }
+            ],
+            "user_preferences_model": {
+                "themes": ["minimalis", "mewah", "vintage", "modern", "tropical"],
+                "color_palettes": ["pastel", "gold & white", "terracotta", "navy & blush", "monochrome"],
+                "music_genres": ["pop", "instrumental", "jazz", "acoustic", "religious"]
+            },
+            "training_data_sample": [
+                {"user_id": "U001", "chosen_service": 1, "budget": 500000, "event_date": "2025-12-20", "rating": 5},
+                {"user_id": "U002", "chosen_service": 2, "budget": 200000, "event_date": "2025-08-15", "rating": 4},
+                {"user_id": "U003", "chosen_service": 4, "budget": 300000, "event_date": "2025-09-01", "rating": 5}
+            ],
+            "recommendation_engine": "Content-based filtering + collaborative filtering (dummy prototype)"
+        };
+
+        // Tampilkan dataset ke pre
+        document.getElementById('dataset-json').innerHTML = JSON.stringify(datasetModel, null, 2);
+        
+        // Portofolio dari dataset (simulasi gambar placeholder)
+        const portofolioItems = [
+            { name: "Wedding Adinda & Raka", icon: "fa-ring", color: "rose" },
+            { name: "Ultah Kayla 7th", icon: "fa-birthday-cake", color: "amber" },
+            { name: "Graduation FTUI", icon: "fa-graduation-cap", color: "blue" },
+            { name: "Anniversary 10th", icon: "fa-heart", color: "pink" }
+        ];
+        const galleryContainer = document.getElementById('gallery-container');
+        if(galleryContainer) {
+            portofolioItems.forEach(item => {
+                let gradClass = "";
+                if(item.color === "rose") gradClass = "from-rose-400 to-rose-600";
+                else if(item.color === "amber") gradClass = "from-amber-400 to-amber-600";
+                else if(item.color === "blue") gradClass = "from-blue-400 to-blue-600";
+                else gradClass = "from-pink-400 to-pink-600";
+                const colDiv = document.createElement('div');
+                colDiv.className = "bg-white rounded-xl shadow overflow-hidden group cursor-pointer";
+                colDiv.innerHTML = `
+                    <div class="h-40 bg-gradient-to-br ${gradClass} flex items-center justify-center">
+                        <i class="fas ${item.icon} text-5xl text-white drop-shadow-lg"></i>
+                    </div>
+                    <div class="p-3 text-center font-semibold text-gray-700">${item.name}</div>
+                `;
+                galleryContainer.appendChild(colDiv);
+            });
+        }
+
+        // Fungsi copy dataset
+        window.copyDataset = function() {
+            const jsonStr = JSON.stringify(datasetModel, null, 2);
+            navigator.clipboard.writeText(jsonStr);
+            alert("Dataset model berhasil disalin ke clipboard!");
+        };
+
+        // Form submit handler
+        const form = document.getElementById('orderForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msgDiv = document.getElementById('formMessage');
+            msgDiv.classList.remove('hidden');
+            msgDiv.innerText = "✅ Terima kasih! Pesanan Anda akan segera kami proses.";
+            form.reset();
+            setTimeout(() => msgDiv.classList.add('hidden'), 4000);
+        });
+
+        // Tambahan: Log dataset ke console => siap untuk machine learning model
+        console.log("Dataset Model Siap:", datasetModel);
+    </script>
+
+    <!-- Structured Data (Schema.org) untuk SEO dan model data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "CitraKreasi Digital Invitation",
+        "description": "Penyedia jasa undangan pernikahan digital dan kartu ucapan ulang tahun interaktif",
+        "serviceType": ["Wedding Invitation", "Birthday Card", "Anniversary Card"],
+        "priceRange": "Rp150.000 - Rp750.000",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Jakarta",
+            "addressCountry": "ID"
+        }
+    }
+    </script>
+</body>
+</html>
